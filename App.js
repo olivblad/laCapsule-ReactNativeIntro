@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import Home from "./components/HomeScreen";
+import PageStack from "./components/PageStack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FontAwesome } from "@expo/vector-icons";
+
+const Tab = createBottomTabNavigator();
+const icons = {
+  Home: "home",
+  Stack: "book",
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color }) => {
+            let iconName = icons[route.name];
+            return <FontAwesome name={iconName} size={24} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "#0984e3",
+          inactiveTintColor: "#dfe6e9",
+        }}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Stack" component={PageStack} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
